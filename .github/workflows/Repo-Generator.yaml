@@ -68,8 +68,7 @@ jobs:
       - name: Generating Table Of Contents
         if: ${{  github.event.inputs.Generate_Table_Of_Contents == 'true' }}
         run: | # To optimize images simply run this
-          npx --location=global imagemin-cli 
-          npx imagemin ~/work/${{ github.event.repository.name }}/
+          npx imagemin-cli ~/work/${{ github.event.repository.name }}/
           npx markdown-toc-gen update README.md 
           
           
