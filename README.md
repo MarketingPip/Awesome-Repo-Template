@@ -1,6 +1,6 @@
-# Awesome-Repo-Template [![Awesome](https://awesome.re/badge.svg)](https://github.com/MarketingPipeline/Awesome-Repo-Template/)
+# Awesome-Repo-Template [![Awesome](https://awesome.re/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/)
 
-<a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/">
+<a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/">
 <img height=350 alt="Repo Banner - Awesome Repo Template" src="https://capsule-render.vercel.app/api?type=waving&color=c4a2bd&height=300&section=header&text=Awesome Repo Template&fontSize=70&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Easily setup your next repo!&descAlignY=60&descAlign=50"></img></a>
 
 <p align="center">
@@ -9,11 +9,11 @@
   <br>
   <small> <b><i>Show your support!</i> </b></small>
   <br>
-   <a href="https://github.com/MarketingPipeline/Awesome-Repo-Template">
-    <img title="Star on GitHub" src="https://img.shields.io/github/stars/MarketingPipeline/Awesome-Repo-Template.svg?style=social&label=Star">
+   <a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name">
+    <img title="Star on GitHub" src="https://img.shields.io/github/stars/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg?style=social&label=Star">
   </a>
-  <a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/fork">
-    <img title="Fork on GitHub" src="https://img.shields.io/github/forks/MarketingPipeline/Awesome-Repo-Template.svg?style=social&label=Fork">
+  <a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/fork">
+    <img title="Fork on GitHub" src="https://img.shields.io/github/forks/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg?style=social&label=Fork">
   </a>
    </p>  
 
@@ -50,9 +50,9 @@
  
  To run any of these tasks you MUST be in the <b>Actions section</b>
  
- <details><summary>How to find the <a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/actions"><b>Action</b></a></summary>
+ <details><summary>How to find the <a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/actions"><b>Action</b></a></summary>
  
-<a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/actions"> ![image](https://user-images.githubusercontent.com/86180097/177446180-b71e50d1-df9d-4ef8-8d78-91184702cff0.png) </a>
+<a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/actions"> ![image](https://user-images.githubusercontent.com/86180097/177446180-b71e50d1-df9d-4ef8-8d78-91184702cff0.png) </a>
 
 </details>	
 
@@ -144,23 +144,23 @@ It will be placed in the main repo under the filename <code>stargazers-metrics.s
 _Repo metadata_
 
 	
-[![Github license](https://img.shields.io/github/license/MarketingPipeline/Awesome-Repo-Template.svg "Github license")](https://github.com/MarketingPipeline/Awesome-Repo-Template/blob/master/LICENSE)
-[![Open issues](https://img.shields.io/github/issues/MarketingPipeline/Awesome-Repo-Template.svg "Open issues")](https://github.com/MarketingPipeline/Awesome-Repo-Template/issues)
-[![Closed issues](https://img.shields.io/github/issues-closed/MarketingPipeline/Awesome-Repo-Template.svg "Closed issues")](https://github.com/MarketingPipeline/Awesome-Repo-Template/issues?utf8=✓&q=is%3Aissue+is%3Aclosed)
-[![Open Pull Requests](https://img.shields.io/github/issues-pr/MarketingPipeline/Awesome-Repo-Template.svg "Open Pull Requests")](https://github.com/MarketingPipeline/Awesome-Repo-Template/pulls)
-[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/MarketingPipeline/Awesome-Repo-Template.svg "Closed Pull Requests")](https://github.com/MarketingPipeline/Awesome-Repo-Template/pulls?utf8=✓&q=is%3Apr+is%3Aclosed)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/MarketingPipeline/Awesome-Repo-Template.svg "Commit activity")](https://github.com/MarketingPipeline/Awesome-Repo-Template/graphs/commit-activity)
-[![GitHub contributors](https://img.shields.io/github/contributors/MarketingPipeline/Awesome-Repo-Template.svg "Github contributors")](https://github.com/MarketingPipeline/Awesome-Repo-Template/graphs/contributors)
-[![Last commit](https://img.shields.io/github/last-commit/MarketingPipeline/Awesome-Repo-Template.svg "Last commit")](https://github.com/MarketingPipeline/Awesome-Repo-Template/commits/master)
-[![GitHub tag](https://img.shields.io/github/tag/MarketingPipeline/Awesome-Repo-Template?include_prereleases=&sort=semver&color=blue)](https://github.com/MarketingPipeline/Awesome-Repo-Template/releases/)
+[![Github license](https://img.shields.io/github/license/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Github license")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/blob/master/LICENSE)
+[![Open issues](https://img.shields.io/github/issues/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Open issues")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/issues)
+[![Closed issues](https://img.shields.io/github/issues-closed/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Closed issues")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/issues?utf8=✓&q=is%3Aissue+is%3Aclosed)
+[![Open Pull Requests](https://img.shields.io/github/issues-pr/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Open Pull Requests")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/pulls)
+[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Closed Pull Requests")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/pulls?utf8=✓&q=is%3Apr+is%3Aclosed)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Commit activity")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/graphs/commit-activity)
+[![GitHub contributors](https://img.shields.io/github/contributors/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Github contributors")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/graphs/contributors)
+[![Last commit](https://img.shields.io/github/last-commit/YOUR_GITHUB_USERNAME/Your-Repo-Name.svg "Last commit")](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/commits/master)
+[![GitHub tag](https://img.shields.io/github/tag/YOUR_GITHUB_USERNAME/Your-Repo-Name?include_prereleases=&sort=semver&color=blue)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/releases/)
 
 
 
 _Social buttons_
 
-[![MarketingPipeline - Awesome-Repo-Template](https://img.shields.io/static/v1?label=MarketingPipeline&message=Awesome-Repo-Template&color=blue&logo=github)](https://github.com/MarketingPipeline/Awesome-Repo-Template "Go to GitHub repo")
-[![stars - Awesome-Repo-Template](https://img.shields.io/github/stars/MarketingPipeline/Awesome-Repo-Template?style=social)](https://github.com/MarketingPipeline/Awesome-Repo-Template)
-[![forks - Awesome-Repo-Template](https://img.shields.io/github/forks/MarketingPipeline/Awesome-Repo-Template?style=social)](https://github.com/MarketingPipeline/Awesome-Repo-Template)
+[![MarketingPipeline - Awesome-Repo-Template](https://img.shields.io/static/v1?label=MarketingPipeline&message=Awesome-Repo-Template&color=blue&logo=github)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name "Go to GitHub repo")
+[![stars - Awesome-Repo-Template](https://img.shields.io/github/stars/YOUR_GITHUB_USERNAME/Your-Repo-Name?style=social)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name)
+[![forks - Awesome-Repo-Template](https://img.shields.io/github/forks/YOUR_GITHUB_USERNAME/Your-Repo-Name?style=social)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name)
 
 
 
@@ -168,7 +168,7 @@ _Call-to-Action buttons_
 
 
 
-[![Use this template](https://img.shields.io/badge/Generate-Use_this_template-2ea44f?style=for-the-badge)](https://github.com/MarketingPipeline/Awesome-Repo-Template/generate)
+[![Use this template](https://img.shields.io/badge/Generate-Use_this_template-2ea44f?style=for-the-badge)](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/generate)
 
 [![View site - GH Pages](https://img.shields.io/badge/View_site-GH_Pages-2ea44f?style=for-the-badge)](https://marketingpip.github.io/Awesome-Repo-Template/)
 
@@ -198,8 +198,8 @@ _Custom button_
 
 - [Features:](#features)
 - [Example and Usage](#example-and-usage)
-- [Contributing <a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/graphs/contributors"> ![GitHub](https://img.shields.io/github/contributors/MarketingPipeline/Awesome-Repo-Template) </a>](#contributing-a-hrefhttpsgithubcommarketingpipelineawesome-repo-templategraphscontributors-githubhttpsimgshieldsiogithubcontributorsmarketingpipelineawesome-repo-template-a)
-- [License <a href="LICENSE"> ![GitHub](https://img.shields.io/github/license/MarketingPipeline/Awesome-Repo-Template) </a>](#license-a-hreflicense-githubhttpsimgshieldsiogithublicensemarketingpipelineawesome-repo-template-a)
+- [Contributing <a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/graphs/contributors"> ![GitHub](https://img.shields.io/github/contributors/YOUR_GITHUB_USERNAME/Your-Repo-Name) </a>](#contributing-a-hrefhttpsgithubcommarketingpipelineawesome-repo-templategraphscontributors-githubhttpsimgshieldsiogithubcontributorsmarketingpipelineawesome-repo-template-a)
+- [License <a href="LICENSE"> ![GitHub](https://img.shields.io/github/license/YOUR_GITHUB_USERNAME/Your-Repo-Name) </a>](#license-a-hreflicense-githubhttpsimgshieldsiogithublicensemarketingpipelineawesome-repo-template-a)
 
 <!-- tocstop -->
 
@@ -213,18 +213,18 @@ _Custom button_
 
 
 
-## Contributing <a href="https://github.com/MarketingPipeline/Awesome-Repo-Template/graphs/contributors"> ![GitHub](https://img.shields.io/github/contributors/MarketingPipeline/Awesome-Repo-Template) </a>
+## Contributing <a href="https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/graphs/contributors"> ![GitHub](https://img.shields.io/github/contributors/YOUR_GITHUB_USERNAME/Your-Repo-Name) </a>
 
 Want to improve this template? Create a pull request with detailed changes / improvements! If approved you will be added to the list of contributors of this awesome repo template!
 
 See also the list of
-[contributors](https://github.com/MarketingPipeline/Awesome-Repo-Template/graphs/contributors) who
+[contributors](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/graphs/contributors) who
 participate in this project.
 
-## License <a href="LICENSE"> ![GitHub](https://img.shields.io/github/license/MarketingPipeline/Awesome-Repo-Template) </a>
+## License <a href="LICENSE"> ![GitHub](https://img.shields.io/github/license/YOUR_GITHUB_USERNAME/Your-Repo-Name) </a>
 
 This project is licensed under the MIT License - see the
-[LICENSE.md](https://github.com/MarketingPipeline/Awesome-Repo-Template/blob/main/LICENSE) file for
+[LICENSE.md](https://github.com/YOUR_GITHUB_USERNAME/Your-Repo-Name/blob/main/LICENSE) file for
 details.
 
 
