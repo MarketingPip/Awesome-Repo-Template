@@ -76,7 +76,7 @@ jobs:
       - name: Updating Code Of Conduct E-Mail
         if: ${{  github.event.inputs.Update_Code_Of_Conduct_EMAIL == 'true' }}
         run: |
-          sudo apt-get install python3 pip3
+          sudo apt-get install python3 python3-pip
           pip3 install pillow optimize-images
           optimize-images ./
       ### Commit updates (if any)
