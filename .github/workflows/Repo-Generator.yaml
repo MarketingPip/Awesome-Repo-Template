@@ -67,7 +67,8 @@ jobs:
       ### Table Of Contents    
       - name: Generating Table Of Contents
         if: ${{  github.event.inputs.Generate_Table_Of_Contents == 'true' }}
-        run: |
+        run: | # To optimize images simply run this
+          npx expo-optimize <project-directory> [options]
           npx markdown-toc-gen update README.md 
           
           
@@ -85,3 +86,8 @@ jobs:
           git add -A
           git commit -m "Updated Content"
           git push
+          
+          
+          npm install -g sharp-cli
+
+
