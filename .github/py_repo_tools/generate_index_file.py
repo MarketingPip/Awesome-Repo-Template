@@ -11,13 +11,15 @@ import urllib.request, json
 
 
 
-SiteTitle =  os.environ['INPUT_STORE1']
+API_URL =  os.environ['INPUT_STORE2']
  	
 
-with urllib.request.urlopen(f"https://api.github.com/repos/MarketingPip/{SiteTitle}") as url:
+with urllib.request.urlopen(f"{API_URL}") as url:
     data = json.loads(url.read().decode())
     SiteDescription = data['description']
-
+    SiteTitle = data['name']
+   
+ Author = SiteTitle.split('/')
 
 
 # README File Path
@@ -40,6 +42,7 @@ try:
     with codecs.open(output_file, 'w', encoding='utf-8') as f:
         f.write(f"""<head><title>{SiteTitle}</title>
 	   {SiteDescription}
+	     {Author}
             <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
