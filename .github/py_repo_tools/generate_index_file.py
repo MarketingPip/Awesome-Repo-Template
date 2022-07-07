@@ -5,17 +5,25 @@
 import sys
 
 import codecs
+import urllib.request, json 
 
-# HTML Santizer
-import bleach
+
+
+https://api.github.com/repos/MarketingPip/Awesome-Repo-Template
+
+SiteTitle =  os.environ['INPUT_STORE1']
+ 	
+
+with urllib.request.urlopen(f"https://api.github.com/repos/MarketingPip/Awesome-Repo-Template") as url:
+    data = json.loads(url.read().decode())
+    SiteDescription = data['description']
 
 
 
 # README File Path
 input_file = "README.md"
 input_file_contents = None
-SiteTitle =  os.environ['INPUT_STORE1']
-SiteDescription = os.environ['INPUT_STORE2']
+
 # Open our README file 
 try:
     with codecs.open(output_file, 'w', encoding='utf-8') as f:
