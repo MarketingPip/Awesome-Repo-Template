@@ -44,7 +44,7 @@ try:
    input_file_contents + """
     </github-md>
 	</body>
-	 <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag-GitHub.js"></script> 
+	 <script src="/.github/py_repo_tools/markdown-tag-github.js"></script> 
 	""")
 except IOError:
     sys.exit(u'Unable to write to file: {0}'.format(output_file))
