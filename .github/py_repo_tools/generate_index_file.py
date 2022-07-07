@@ -4,6 +4,8 @@
 
 import sys
 
+import codecs
+
 # HTML Santizer
 import bleach
 
