@@ -10,7 +10,7 @@ import bleach
 
 
 # README File Path
-input_file = "README.MD"
+input_file = "README.md"
 input_file_contents = None
 SiteTitle = "Hello"
 # Open our README file 
