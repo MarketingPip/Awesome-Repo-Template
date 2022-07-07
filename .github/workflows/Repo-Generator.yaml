@@ -77,7 +77,7 @@ jobs:
         if: ${{  github.event.inputs.Update_Code_Of_Conduct_EMAIL == 'true' }}
         run: |
           sudo apt-get install python3 
-          INPUT_STORE1=${{ github.event.repository.name }} INPUT_STORE2=${{ github.event.repository.description }} python3 .github/py_repo_tools/generate_index_file.py
+          INPUT_STORE1=${{ github.event.repository.name }} INPUT_STORE2=${{ github.event.repository.url }} python3 .github/py_repo_tools/generate_index_file.py
       ### Commit updates (if any)
       - name: Commiting updates
         if: ${{  github.event.inputs.Update_Code_Of_Conduct_EMAIL == 'true' }}
