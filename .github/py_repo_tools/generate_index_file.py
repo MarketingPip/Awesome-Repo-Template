@@ -19,7 +19,7 @@ with urllib.request.urlopen(f"{API_URL}") as url:
     SiteDescription = data['description']
     SiteTitle = data['name']
    
- Author = SiteTitle.split('/')
+Author = SiteTitle.split('/')
 
 
 # README File Path
