@@ -9,12 +9,12 @@ import urllib.request, json
 
 
 
-https://api.github.com/repos/MarketingPip/Awesome-Repo-Template
+
 
 SiteTitle =  os.environ['INPUT_STORE1']
  	
 
-with urllib.request.urlopen(f"https://api.github.com/repos/MarketingPip/Awesome-Repo-Template") as url:
+with urllib.request.urlopen(f"https://api.github.com/repos/MarketingPip/{SiteTitle}") as url:
     data = json.loads(url.read().decode())
     SiteDescription = data['description']
 
