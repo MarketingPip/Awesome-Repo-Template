@@ -14,11 +14,13 @@ import bleach
 # README File Path
 input_file = "README.md"
 input_file_contents = None
-SiteTitle = "Hello"
+SiteTitle =  os.environ['INPUT_STORE1']
+SiteDescription = os.environ['INPUT_STORE2']
 # Open our README file 
 try:
     with codecs.open(output_file, 'w', encoding='utf-8') as f:
         f.write(f"""<head><title>{SiteTitle}</title>
+	   {SiteDescription}
             <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
