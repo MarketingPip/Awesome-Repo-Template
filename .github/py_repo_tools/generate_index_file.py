@@ -18,7 +18,7 @@ with urllib.request.urlopen(f"{API_URL}") as url:
     data = json.loads(url.read().decode())
     SiteDescription = data['description']
     SiteTitle = data['name']
-    Author = data['owner.login']
+    Author = data['owner']['login']
    
 
 
