@@ -26,6 +26,18 @@ input_file_contents = None
 
 # Open our README file 
 try:
+    with open(input_file, 'r') as f:
+        input_file_contents = f.read()
+        input_file_contents = bleach.clean(input_file_contents)
+        
+except IOError:
+    sys.exit('README.md file does not exist, or has no content.  Exiting')
+
+
+output_file = "index.html"
+
+# Write out the Index.HTML file 
+try:
     with codecs.open(output_file, 'w', encoding='utf-8') as f:
         f.write(f"""<head><title>{SiteTitle}</title>
 	   {SiteDescription}
