@@ -12,7 +12,7 @@ import bleach
 # README File Path
 input_file = "README.MD"
 input_file_contents = None
-
+SiteTitle = "Hello"
 # Open our README file 
 try:
     with open(input_file, 'r') as f:
