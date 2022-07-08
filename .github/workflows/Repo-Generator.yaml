@@ -66,10 +66,9 @@ jobs:
 
       ### Table Of Contents    
       - name: Generating Table Of Contents
-        if: ${{  github.event.inputs.Generate_Table_Of_Contents == 'true' }}
+        if: ${{  github.event.inputs.Generate_Table_Of_Contents}}
         run: | # To optimize images simply run this
-          npx compress-images-tool --directory ./home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-          npx markdown-toc-gen update README.md 
+          ./.github/py_repo_tools/shell_scripts/github_downloader.sh https://github.com/Decad/github-downloader/blob/master/README.md
           
           
       ### Replace COC E-mail    
