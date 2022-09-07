@@ -2,7 +2,7 @@ import time
 import concurrent.futures
 
 from html2image import Html2Image
-hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '--hide-scrollbars'])
+hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=3000', '--hide-scrollbars'])
 
 tags = ["history"]
 
