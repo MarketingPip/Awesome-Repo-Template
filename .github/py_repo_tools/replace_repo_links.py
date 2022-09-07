@@ -3,9 +3,12 @@ hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '
 
 tags = ["athletics", "business", "change", "character", "competition", "conservative", "courage", "education", "faith", "family", "famous-quotes", "film", "freedom", "friendship", "future", "happiness", "history", "honor", "humor", "humorous", "inspirational", "leadership", "life", "literature", "love", "motivational", "nature", "pain", "philosophy", "politics", "power-quotes", "proverb", "religion", "science", "self", "self-help", "social-justice", "spirituality", "sports", "success", "technology", "time", "truth", "virtue", "war", "wisdom"]
 
-
-for name in tags:
-  html = """<!--BROWSER-SIZE:780,780-->
+def test_TPE():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = [
+            executor.submit(
+                hti.screenshot,
+                html_str= """<!--BROWSER-SIZE:780,780-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
 <style>
   body{
@@ -106,7 +109,11 @@ button:hover{
   
     getQuote();
 }); //docready
-</script>"""
-  css = "body {background: red;}"
-
-  hti.screenshot(html_str=html, css_str=css, save_as='{tag}.png')
+</script>""",
+                # url='https://www.python.org',
+                css_str=CSS,
+                save_as=f'TPE_{i}.png',
+            )
+            for i in tags
+        ]
+test_TPE()
