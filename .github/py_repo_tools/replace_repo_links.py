@@ -7,7 +7,7 @@ hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=200', '-
 tags = ["business", "change", "character", "competition", "conservative", "courage", "education", "faith", "family", "famous-quotes", "film", "freedom", "friendship", "future", "happiness", "history", "honor", "humor", "humorous", "inspirational", "leadership", "life", "literature", "love", "motivational", "nature", "pain", "philosophy", "politics", "power-quotes", "religion", "science", "self", "self-help", "social-justice", "spirituality", "sports", "success", "technology", "time", "truth", "virtue", "war", "wisdom"]
 
 def test_TPE():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
         results = [
             executor.submit(
                 hti.screenshot,
