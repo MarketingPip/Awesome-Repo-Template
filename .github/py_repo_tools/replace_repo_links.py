@@ -4,7 +4,8 @@ hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '
 tags = ["athletics", "business", "change", "character", "competition", "conservative", "courage", "education", "faith", "family", "famous-quotes", "film", "freedom", "friendship", "future", "happiness", "history", "honor", "humor", "humorous", "inspirational", "leadership", "life", "literature", "love", "motivational", "nature", "pain", "philosophy", "politics", "power-quotes", "proverb", "religion", "science", "self", "self-help", "social-justice", "spirituality", "sports", "success", "technology", "time", "truth", "virtue", "war", "wisdom"]
 
 
-html = """<!--BROWSER-SIZE:780,780-->
+for name in tags:
+  html = """<!--BROWSER-SIZE:780,780-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
 <style>
   body{
@@ -85,13 +86,13 @@ button:hover{
   var author;
   
   function getQuote(){    
-    var forismaticAPI = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=?";  
+    var forismaticAPI = "https://api.quotable.io/random?tags={tag}";  
     
     $.getJSON(forismaticAPI, function(data) {
-      quote = data.quoteText;
-      author = data.quoteAuthor;
-       $(".quote").text(data.quoteText);
-       $(".author").text("-"+data.quoteAuthor);
+      quote = data.content;
+      author = data.author;
+       $(".quote").text(data.content);
+       $(".author").text("-"+data.author);
     });   
   }; //getQuote function
   
@@ -106,6 +107,6 @@ button:hover{
     getQuote();
 }); //docready
 </script>"""
-css = "body {background: red;}"
+  css = "body {background: red;}"
 
-hti.screenshot(html_str=html, css_str=css, save_as='red_page.png')
+  hti.screenshot(html_str=html, css_str=css, save_as='{tag}.png')
