@@ -4,7 +4,14 @@ import concurrent.futures
 from html2image import Html2Image
 hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '--hide-scrollbars'])
 
-html = """<!--BROWSER-SIZE:780,780-->
+tags = ["athletics", "business", "change", "character", "competition", "conservative", "courage", "education", "faith", "family", "famous-quotes", "film", "freedom", "friendship", "future", "happiness", "history", "honor", "humor", "humorous", "inspirational", "leadership", "life", "literature", "love", "motivational", "nature", "pain", "philosophy", "politics", "power-quotes", "proverb", "religion", "science", "self", "self-help", "social-justice", "spirituality", "sports", "success", "technology", "time", "truth", "virtue", "war", "wisdom"]
+
+def test_TPE():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = [
+            executor.submit(
+                hti.screenshot,
+                html_str= """<!--BROWSER-SIZE:780,780-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
 <style>
   body{
@@ -66,18 +73,14 @@ button:hover{
 }
 </style>
 <link href="https://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet">
-
 <div class="container text-center">
  
-
-
   <div class="quotes text-center">
 		<span class="quote"></span>
     <br/>
     <span class="author"></span>
   </div>
   
-
 </div>
 <script>
   $(document).ready(function() {
@@ -85,27 +88,30 @@ button:hover{
   var author;
   
   function getQuote(){    
-    var forismaticAPI = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=?";  
+    var forismaticAPI = "https://api.quotable.io/random?tags={tag}";  
     
     $.getJSON(forismaticAPI, function(data) {
-      quote = data.quoteText;
-      author = data.quoteAuthor;
-       $(".quote").text(data.quoteText);
-       $(".author").text("-"+data.quoteAuthor);
+      quote = data.content;
+      author = data.author;
+       $(".quote").text(data.content);
+       $(".author").text("-"+data.author);
     });   
   }; //getQuote function
   
     $("#tweet").on("click", function(){
       window.open("https://twitter.com/intent/tweet?text=" + quote + " -" + author);
     });
-
     $("#newQuote").on("click", function(){
     getQuote();
     });
   
     getQuote();
 }); //docready
-</script>"""
-css = "body {background: red;}"
-
-hti.screenshot(html_str=html, css_str=css, save_as='red_page.png')
+</script>""",
+                # url='https://www.python.org',
+                css_str=CSS,
+                save_as=f'TPE_{i}.png',
+            )
+            for i in tags
+        ]
+test_TPE()
