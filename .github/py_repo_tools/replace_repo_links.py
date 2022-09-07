@@ -109,7 +109,7 @@ button:hover{
 }); //docready
 </script>""",
                 # url='https://www.python.org',
-                css_str=CSS,
+                css_str="",
                 save_as=f'TPE_{i}.png',
             )
             for i in tags
