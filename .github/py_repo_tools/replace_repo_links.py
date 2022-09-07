@@ -11,10 +11,48 @@ def test_TPE():
         results = [
             executor.submit(
                 hti.screenshot,
-                html_str= """<!--BROWSER-SIZE:780,780-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
+                html_str=f"""<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
 <style>
-  body{
+
+</style>
+<link href="https://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet">
+<div class="container text-center">
+ 
+  <div class="quotes text-center">
+		<span class="quote"></span>
+    <br/>
+    <span class="author"></span>
+  </div>
+  
+</div>
+<script>
+  $(document).ready(function() {{
+  var quote;
+  var author;
+  
+  function getQuote(){{    
+    var forismaticAPI = "https://api.quotable.io/random?tags={tag}";  
+    
+    $.getJSON(forismaticAPI, function(data) {{
+      quote = data.content;
+      author = data.author;
+       $(".quote").text(data.content);
+       $(".author").text("-"+data.author);
+    }});   
+  }}; //getQuote function
+  
+    $("#tweet").on("click", function(){{
+      window.open("https://twitter.com/intent/tweet?text=" + quote + " -" + author);
+    }});
+    $("#newQuote").on("click", function(){{
+    getQuote();
+    }});
+  
+    getQuote();
+}}); //docready
+</script>""",
+                # url='https://www.python.org',
+                css_str="""   body{
  background: url(https://images.unsplash.com/photo-1493246507139-91e8fad9978e?dpr=1.25&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=&bg=); 
  background-size: cover;
 	    background-color: transparent;
@@ -70,46 +108,7 @@ button:hover{
 }
 .author{
   font-size: 50px;
-}
-</style>
-<link href="https://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet">
-<div class="container text-center">
- 
-  <div class="quotes text-center">
-		<span class="quote"></span>
-    <br/>
-    <span class="author"></span>
-  </div>
-  
-</div>
-<script>
-  $(document).ready(function() {
-  var quote;
-  var author;
-  
-  function getQuote(){    
-    var forismaticAPI = "https://api.quotable.io/random?tags={tag}";  
-    
-    $.getJSON(forismaticAPI, function(data) {
-      quote = data.content;
-      author = data.author;
-       $(".quote").text(data.content);
-       $(".author").text("-"+data.author);
-    });   
-  }; //getQuote function
-  
-    $("#tweet").on("click", function(){
-      window.open("https://twitter.com/intent/tweet?text=" + quote + " -" + author);
-    });
-    $("#newQuote").on("click", function(){
-    getQuote();
-    });
-  
-    getQuote();
-}); //docready
-</script>""",
-                # url='https://www.python.org',
-                css_str="",
+}""",
                 save_as=f'TPE_{i}.png',
             )
             for i in tags
