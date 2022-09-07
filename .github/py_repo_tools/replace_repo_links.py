@@ -2,7 +2,7 @@ import time
 import concurrent.futures
 
 from html2image import Html2Image
-hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=3000', '--hide-scrollbars'])
+hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=200', '--hide-scrollbars'])
 
 tags = ["business", "change", "character", "competition", "conservative", "courage", "education", "faith", "family", "famous-quotes", "film", "freedom", "friendship", "future", "happiness", "history", "honor", "humor", "humorous", "inspirational", "leadership", "life", "literature", "love", "motivational", "nature", "pain", "philosophy", "politics", "power-quotes", "religion", "science", "self", "self-help", "social-justice", "spirituality", "sports", "success", "technology", "time", "truth", "virtue", "war", "wisdom"]
 
