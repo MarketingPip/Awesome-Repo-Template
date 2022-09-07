@@ -1,5 +1,5 @@
 from html2image import Html2Image
-hti = Html2Image(size=(780, 780))
+hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '--hide-scrollbars'])
 
 html = """<!--BROWSER-SIZE:780,780-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin="anonymous"></script>
