@@ -31,7 +31,7 @@ def test_TPE():
   var author;
   
   function getQuote(){{    
-    var forismaticAPI = "https://api.quotable.io/random?tags={tag}";  
+    var forismaticAPI = "https://api.quotable.io/random?tags={i}";  
     
     $.getJSON(forismaticAPI, function(data) {{
       quote = data.content;
