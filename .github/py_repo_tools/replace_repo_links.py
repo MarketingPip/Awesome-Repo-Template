@@ -4,7 +4,7 @@ import concurrent.futures
 from html2image import Html2Image
 hti = Html2Image(size=(780, 780),  custom_flags=['--virtual-time-budget=1200', '--hide-scrollbars'])
 
-tags = ["athletics"]
+tags = ["history"]
 
 def test_TPE():
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
