@@ -31,7 +31,7 @@ jobs:
       - name: Updating links in README content
         if: ${{  github.event.inputs.Replace_Links_In_Markdown == 'true' }}
         run: |
-          npx create-polyfill-service-url analyse --file test.js
+          npx create-polyfill-service-url analyse --file nlp_bundle.js
       
       
       ### Metric Images
