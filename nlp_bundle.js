@@ -1,3 +1,4 @@
+import "https://polyfill.io/v3/polyfill.min.js?features=console" // POLYFILLS NEEDED.
 import core from "https://cdn.skypack.dev/@nlpjs/core@4.26.1";
 import nlp from "https://cdn.skypack.dev/@nlpjs/nlp@4.26.1";
 import langenmin from "https://cdn.skypack.dev/@nlpjs/lang-en-min@4.26.1";
