@@ -1,548 +1,250 @@
-import { pipeline } from "@xenova/transformers";
+import wtf from "https://cdn.skypack.dev/wtf_wikipedia@10.1.5";
+import nlp from "https://cdn.skypack.dev/compromise@14.9.0";
+import datePlugin from "https://cdn.skypack.dev/compromise-dates@3.4.1";
 
-// Allocate a pipeline for sentiment-analysis
-let pipe = await pipeline('sentiment-analysis');
+nlp.plugin(datePlugin);
 
-let out = await pipe('I love transformers!');
+import { removeStopwords } from "https://cdn.skypack.dev/stopword@2.0.8";
 
-///////////////////////////////////////////////////////////////
-// Worker.js file for doing all transformer-based computations
-// Needed to ensure the UI thread is not blocked when running
-///////////////////////////////////////////////////////////////
-//
-// Get dist directory relative to location of worker script.
-const DIST_DIR = location.pathname.split('/').slice(0, -1 - 2).join('/') + '/dist/';
+function clean(input) {
+  // Check for "a " at the start of the string
+  if (input.startsWith("a ")) {
+    // If found, remove "a " and return the rest of the string
+    return input.slice(2);
+  }
 
-// Import transformers.js library
-importScripts(DIST_DIR + 'transformers.min.js');
+  // Check for commas, periods, and question marks at the end of the string
+  const punctuationRegex = /[,.?;]+$/;
+  const cleanedInput = input.replace(punctuationRegex, "").trim();
 
-// Set paths to wasm files. In this case, we use the .wasm files present in `DIST_DIR`.
-env.onnx.wasm.wasmPaths = DIST_DIR;
-
-// If we are running locally, we should use the local model files (speeds up development)
-// Otherwise, we should use the remote files
-env.remoteModels = location.hostname !== '127.0.0.1' && location.hostname !== 'localhost';
-
-// Define task function mapping
-const TASK_FUNCTION_MAPPING = {
-    'translation': translate,
-    'text-generation': text_generation,
-    'code-completion': code_completion,
-    'masked-language-modelling': masked_lm,
-    'sequence-classification': sequence_classification,
-    'token-classification': token_classification,
-    'zero-shot-classification': zero_shot_classification,
-    'question-answering': question_answering,
-    'summarization': summarize,
-    'automatic-speech-recognition': speech_to_text,
-    'image-to-text': image_to_text,
-    'image-classification': image_classification,
-    'zero-shot-image-classification': zero_shot_image_classification,
-    'object-detection': object_detection,
+  return cleanedInput;
 }
 
-// Listen for messages from UI
-self.addEventListener('message', async (event) => {
-    const data = event.data;
-    let fn = TASK_FUNCTION_MAPPING[data.task];
 
-    if (!fn) return
+async function extractEntities(question, extrainfo = false) {
+  try {
+    // Extract parts of speech and dates using compromise
+    const doc = nlp(question);
+    console.log(doc.places().out("array"))
+    const nouns = doc.chunks()
+    //console.log(nouns.out("json"))
+    //const dates = doc.dates().get();
+    
+    // Fetch _type for each entity using wtf.fetch()
+    const entities = [];
 
-    let result = await fn(data);
-    self.postMessage({
-        task: data.task,
-        type: 'result',
-        data: result
-    });
-});
+    for (let noun of nouns.out('array')) {
+      
+      
+           
+      
+      let doc = nlp(noun)
 
-// Define model factories
-// Ensures only one model is created of each type
-class PipelineFactory {
-    static task = null;
-    static model = null;
+     let dates = doc.dates().get()[0]   
+      //console.log(noun)
+     if(dates){
+       entities.push({ name: noun, entity: "date", times:[{start:dates.start, end:dates.end, }] }); 
+     } 
 
-    // NOTE: instance stores a promise that resolves to the pipeline
-    static instance = null;
+          let number = doc?.numbers()?.out("array")[0]
 
-    constructor(tokenizer, model) {
-        this.tokenizer = tokenizer;
-        this.model = model;
+      
+      
+      
+     
+       if(number && number.length > 1){
+           let knownAs = []
+       let convert =  nlp(noun)  
+       
+         let cardinal;
+    let Ordinal;
+
+      // console.log(convert)
+       if(convert.numbers().isCardinal().out("array")[0] && convert.out("json")[0]?.terms[0]?.tags.includes("Money") != true){
+         Ordinal = convert?.numbers()?.toOrdinal()?.out("array")[0]  
+       }
+      
+        if(!convert.numbers().isCardinal().out("array")[0]){
+        cardinal = convert?.numbers()?.toCardinal()?.out("array")[0] 
+       }  
+         
+    
+      let toText = convert?.numbers()?.toText()?.out("array")[0]  
+      
+      let toNumber = convert?.values().numbers()?.out("array")[0]  
+     
+      toNumber = nlp(toNumber).numbers()?.toNumber()?.out("array")[0]  
+      
+         if(cardinal && cardinal != number ){
+           knownAs.push(cardinal)
+         }
+         
+         
+        if(toText && toText.toLowerCase() != number.trim().toLowerCase()){
+           knownAs.push(toText)
+         }
+         
+        if(toNumber && toNumber.toLowerCase() != number.trim().toLowerCase() && toNumber != Ordinal ){
+           knownAs.push(toNumber)
+         }
+         
+         
+         
+            if(Ordinal && Ordinal.toLowerCase() != number.trim().toLowerCase() ){
+           knownAs.push(Ordinal )
+         }
+         if(convert.out("json")[0]?.terms[0]?.tags.includes("Money") != true){
+       number = { name: number, entity: "number",  knownAs: knownAs } 
+         }
+         
+         if(convert.out("json")[0]?.terms[0]?.tags.includes("Money") === true){
+       number = { name: number, entity: "currency",  knownAs: knownAs }
+         }
+         
+      }
+      
+    
+      
+      
+      let phoneNumber = doc?.phoneNumbers()?.out("array")[0]  
+      
+      let email = doc?.emails()?.out("array")[0] 
+      
+      let url = doc?.urls()?.out("array")[0] 
+  
+      if(phoneNumber){
+       entities.push({ name: phoneNumber, entity: "phoneNumber" });  
+      }
+      
+       if(email){
+       entities.push({ name: email, entity: "email" });  
+      }
+      
+       if(url){
+       entities.push({ name: url, entity: "url" });  
+      }
+      
+        let types = "d"
+      
+      
+       let people = doc?.people()?.out("array")[0] 
+       if(doc?.people()?.out("json")[0]?.terms.length > 1){
+             
+     
+      if(people){   
+       people = { name: people, entity: "person" }
+      }
+       }
+
+        if(doc?.people()?.out("json")[0]?.terms.length === 1 || doc?.people()?.out("json")[0]?.terms === undefined){
+          
+          let firstName = doc?.match("#FirstName")?.out("array")[0]
+          
+            if(firstName && types != "given name"){   
+       people = { name: firstName, entity: "given name" }
+      }
+          
+        }
+        
+        
+      
+      
+      
+      
+      
+      noun = clean(noun)
+      const text = removeStopwords(noun.split(' ')).join(" ");
+      let fetchResult = null;
+      if (text) {
+        fetchResult = await wtf.fetch(text);
+       
+        // If no infobox found, try adding "the" to the noun and fetch again
+        if (!fetchResult?.infobox() && noun.toLowerCase().startsWith("the") && !text.toLowerCase().startsWith("the")) {
+          fetchResult = await wtf.fetch(`the ${text}`);
+        }
+      }
+     // console.log(text)
+     // console.log(fetchResult?.infobox())
+      const birthName = fetchResult?.infobox()?.data?.birth_name?.text();
+      const description = fetchResult?._options?.description;
+      const type = fetchResult?.infobox()?._type;
+      const title = fetchResult?._options?.title;
+      let alsoKnownAs = [];
+      
+      const drugName = fetchResult?.infobox()?.data?.drug_name?.text();
+
+
+      let synonyms  = fetchResult?.infobox()?.data?.synonyms?.text()
+      if(synonyms){
+      let symn = synonyms 
+      synonyms = nlp(synonyms).chunks().out("array")
+       if(synonyms.length == 1 || synonyms.length == 0){
+         synonyms = nlp(symn).nouns().out("array")
+       }
+      for(let word in synonyms){
+        let symns = clean(synonyms[word])
+        if(!symns.includes("others") && noun.toLowerCase() !=  symns.toLowerCase()){
+        alsoKnownAs.push(symns)
+        }
+      }  
+       
+      }
+    
+
+      
+      if (title && noun.toLowerCase() !== title.toLowerCase()) {
+        alsoKnownAs.push(title);
+      }
+
+      if (birthName && noun.toLowerCase() !== birthName.toLowerCase()) {
+        alsoKnownAs.push(birthName);
+      }
+      
+        if (drugName && noun.toLowerCase() !== drugName.toLowerCase()) {
+        alsoKnownAs.push(drugName);
+      }
+
+      let queryID;
+      
+      if(extrainfo != false){
+        queryID = fetchResult?._options?.wikidata;
+      }
+      
+      if (type) {
+        entities.push({ name: noun, entity: type, alsoKnownAs, description, queryID });
+      }
+      
+      if(type != "person" && type != "given name" && people){
+        
+        entities.push(people)
+      }
+    
+      
+        if(number && type != "number"){
+        
+        entities.push(number)
+        }
+    
+      
+
+      
+        if (!type && description && description != "Topics referred to by the same term" && extrainfo != false) {
+        entities.push({ name: noun, entity: title, alsoKnownAs, description,  queryID});
+      }
+      
     }
+    
+ 
 
-    static getInstance(progressCallback = null) {
-        if (this.task === null || this.model === null) {
-            throw Error("Must set task and model")
-        }
-        if (this.instance === null) {
-            this.instance = pipeline(this.task, this.model, {
-                progress_callback: progressCallback
-            });
-        }
-
-        return this.instance;
-    }
+    // Return the extracted entities
+    return { entities };
+  } catch (error) {
+    console.error('Error while extracting entities:', error.message);
+    return { entities: [] };
+  }
 }
 
-class TranslationPipelineFactory extends PipelineFactory {
-    static task = 'translation';
-    static model = 't5-small';
-}
-
-class TextGenerationPipelineFactory extends PipelineFactory {
-    static task = 'text-generation';
-    static model = 'distilgpt2';
-}
-
-class CodeCompletionPipelineFactory extends PipelineFactory {
-    static task = 'text-generation';
-    static model = 'Salesforce/codegen-350M-mono';
-}
-
-class MaskedLMPipelineFactory extends PipelineFactory {
-    static task = 'fill-mask';
-    static model = 'bert-base-cased';
-}
-
-class SequenceClassificationPipelineFactory extends PipelineFactory {
-    static task = 'text-classification';
-    static model = 'nlptown/bert-base-multilingual-uncased-sentiment';
-}
-
-class TokenClassificationPipelineFactory extends PipelineFactory {
-    static task = 'token-classification';
-    static model = 'Davlan/bert-base-multilingual-cased-ner-hrl';
-}
-
-class ZeroShotClassificationPipelineFactory extends PipelineFactory {
-    static task = 'zero-shot-classification';
-    static model = 'typeform/distilbert-base-uncased-mnli';
-}
-
-class QuestionAnsweringPipelineFactory extends PipelineFactory {
-    static task = 'question-answering';
-    static model = 'distilbert-base-cased-distilled-squad';
-}
-
-class SummarizationPipelineFactory extends PipelineFactory {
-    static task = 'summarization';
-    static model = 'sshleifer/distilbart-cnn-6-6';
-}
-
-class AutomaticSpeechRecognitionPipelineFactory extends PipelineFactory {
-    static task = 'automatic-speech-recognition';
-    static model = 'openai/whisper-tiny.en';
-}
-
-class ImageToTextPipelineFactory extends PipelineFactory {
-    static task = 'image-to-text';
-    static model = 'nlpconnect/vit-gpt2-image-captioning';
-}
-
-class ImageClassificationPipelineFactory extends PipelineFactory {
-    static task = 'image-classification';
-    static model = 'google/vit-base-patch16-224';
-}
-
-
-class ZeroShotImageClassificationPipelineFactory extends PipelineFactory {
-    static task = 'zero-shot-image-classification';
-    static model = 'openai/clip-vit-base-patch16';
-}
-
-class ObjectDetectionPipelineFactory extends PipelineFactory {
-    static task = 'object-detection';
-    static model = 'facebook/detr-resnet-50';
-}
-
-async function translate(data) {
-
-    let pipeline = await TranslationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'translation',
-            data: data
-        });
-    })
-
-    // Update task based on source and target languages
-    // Doing it this way prevents the same model from being loaded multiple times
-    pipeline.task = `translation_${data.languageFrom}_to_${data.languageTo}`;
-
-    return await pipeline(data.text, {
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                data: decodedText
-            });
-        }
-    })
-}
-
-async function text_generation(data) {
-
-    let pipeline = await TextGenerationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'text-generation',
-            data: data
-        });
-    })
-
-    let text = data.text.trim();
-
-    return await pipeline(text, {
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                data: text + decodedText
-            });
-        }
-    })
-}
-
-async function code_completion(data) {
-
-    let pipeline = await CodeCompletionPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'code-completion',
-            data: data,
-        });
-    })
-
-    let text = data.text;
-
-    return await pipeline(text, {
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                targetType: data.targetType,
-                data: text + decodedText
-            });
-        }
-    })
-}
-
-async function masked_lm(data) {
-
-    let pipeline = await MaskedLMPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'masked-language-modelling',
-            data: data
-        });
-    })
-
-    let output = await pipeline(data.text, data.generation)
-
-    self.postMessage({
-        type: 'update',
-        target: data.elementIdToUpdate,
-        data: output.map(x => x.sequence).join('\n')
-    });
-
-    return output;
-}
-
-async function sequence_classification(data) {
-
-    let pipeline = await SequenceClassificationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'sequence-classification',
-            data: data
-        });
-    });
-
-    let outputs = await pipeline(data.text, {
-        topk: 5 // return all
-    })
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        data: outputs
-    });
-}
-
-
-async function token_classification(data) {
-
-    let pipeline = await TokenClassificationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'token-classification',
-            data: data
-        });
-    });
-
-    let outputs = await pipeline(data.text, {
-        ignore_labels: []   // Return all labels
-    });
-
-    let chunks = [];
-    let currentChunk = { type: '', text: [] };
-
-    for (let i = 0; i < outputs.length; i++) {
-        let word = pipeline.tokenizer.model.tokens_to_ids[outputs[i].word];
-        let entity = outputs[i].entity;
-
-        if (entity.startsWith('B-')) { // beginning of a new chunk
-            if (currentChunk.text.length > 0) { // push the current chunk if it exists
-                chunks.push(currentChunk);
-                currentChunk = { type: '', text: [] };
-            }
-            currentChunk.type = entity.slice(2); // get the type of the chunk
-            currentChunk.text = [word];
-        } else if (entity.startsWith('I-')) { // continuation of a chunk
-            currentChunk.text.push(word);
-        } else { // not part of a chunk (O tag)
-            if (currentChunk.text.length > 0) { // push the current chunk if it exists
-
-                if (currentChunk.type === 'O') {
-                    currentChunk.text.push(word);
-                } else {
-                    chunks.push(currentChunk);
-                    currentChunk = { type: 'O', text: [word] };
-                }
-            } else {
-                currentChunk = { type: 'O', text: [word] };
-            }
-        }
-    }
-
-    // push the last chunk if it exists
-    if (currentChunk.text.length > 0) {
-        chunks.push(currentChunk);
-    }
-
-    let postProcessedChunks = chunks.map(
-        x => ({
-            type: x.type,
-            text: pipeline.tokenizer.decode(x.text)
-        })
-    )
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        data: postProcessedChunks,
-    });
-}
-
-
-async function zero_shot_classification(data) {
-
-    let pipeline = await ZeroShotClassificationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'zero-shot-classification',
-            data: data
-        });
-    });
-
-    let outputs = await pipeline(data.text, data.classes, data.generation);
-    let formattedOutputs = outputs.labels.map((x, i) => {
-        return {
-            label: x,
-            score: outputs.scores[i],
-        }
-    });
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        data: formattedOutputs
-    });
-}
-async function question_answering(data) {
-
-    let pipeline = await QuestionAnsweringPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'question-answering',
-            data: data
-        });
-    })
-
-    let answer = await pipeline(data.question, data.context)
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        data: answer.answer
-    });
-
-    return answer;
-}
-
-async function summarize(data) {
-    let pipeline = await SummarizationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'summarization',
-            data: data
-        });
-    })
-
-    return await pipeline(data.text, {
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                data: decodedText.trim()
-            });
-        }
-    })
-}
-
-async function speech_to_text(data) {
-    let pipeline = await AutomaticSpeechRecognitionPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'automatic-speech-recognition',
-            data: data
-        });
-    })
-
-    return await pipeline(data.audio, {
-        // Choose good defaults for the demo
-        chunk_length_s: 30,
-        stride_length_s: 5,
-
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                data: decodedText.trim()
-            });
-        }
-    })
-}
-
-async function image_to_text(data) {
-    let pipeline = await ImageToTextPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'image-to-text',
-            data: data
-        });
-    })
-
-    return await pipeline(data.image, {
-        ...data.generation,
-        callback_function: function (beams) {
-            const decodedText = pipeline.tokenizer.decode(beams[0].output_token_ids, {
-                skip_special_tokens: true,
-            })
-
-            self.postMessage({
-                type: 'update',
-                target: data.elementIdToUpdate,
-                data: decodedText.trim()
-            });
-        }
-    })
-}
-
-async function image_classification(data) {
-    let pipeline = await ImageClassificationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'image-classification',
-            data: data
-        });
-    })
-
-    let outputs = await pipeline(data.image, {
-        topk: 5 // return all
-    })
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        updateLabels: data.updateLabels,
-        data: outputs
-    });
-
-}
-
-
-async function zero_shot_image_classification(data) {
-    let pipeline = await ZeroShotImageClassificationPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'image-classification',
-            data: data
-        });
-    })
-
-    let outputs = await pipeline(data.image, data.classes)
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        updateLabels: data.updateLabels,
-        data: outputs
-    });
-
-}
-
-
-async function object_detection(data) {
-
-    let pipeline = await ObjectDetectionPipelineFactory.getInstance(data => {
-        self.postMessage({
-            type: 'download',
-            task: 'object-detection',
-            data: data
-        });
-    })
-
-    let outputs = await pipeline(data.image, {
-        threshold: 0.9,
-        percentage: true
-    })
-
-    self.postMessage({
-        type: 'complete',
-        target: data.elementIdToUpdate,
-        targetType: data.targetType,
-        chartId: data.chartId,
-        data: outputs
-    });
-}
-
+// Example usage:
+const inputQuestion = `I love dogs`;
+const extractedEntities = await extractEntities(inputQuestion, true);
+console.log(extractedEntities);
