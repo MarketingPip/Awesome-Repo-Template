@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v3   
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       ### Update links in README file
       - name: Updating links in README content
         if: ${{  github.event.inputs.Replace_Links_In_Markdown == 'true' }}
